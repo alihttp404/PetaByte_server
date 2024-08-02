@@ -13,6 +13,6 @@ app.get('/', (request, response) => {
   response.json({ info: 'Node.js, Express, and Postgres API' })
 })
 
-app.listen(port, '0.0.0.0', () => {
-  console.log('Server is running on https://petabyte-server.onrender.com/  ', port);
+app.listen(port, () => {
+  console.log('Server is running on https://petabyte-server.onrender.com/\nPort: ', port);
 });
