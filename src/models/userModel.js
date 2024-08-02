@@ -9,12 +9,6 @@ const pool = new Pool({
   port: 5432,
 });
 
-console.log('DB User:', pool.user)
-console.log('DB Password:', pool.password)
-console.log('DB Host:', pool.host)
-console.log('DB Name:', pool.database)
-console.log('DB Port:', pool.port)
-
 const getUsers = async () => {
   console.log("Salam model before query");
   console.log('DB User:', pool.user)
