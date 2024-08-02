@@ -6,16 +6,22 @@ const pool = new Pool({
   host: process.env.DB_HOST,
   database: process.env.DB_NAME,
   password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
+  port: process.env.DB_PORT,s
 });
 
 console.log('DB User:', pool.user)
 console.log('DB Password:', pool.password)
 console.log('DB Host:', pool.host)
 console.log('DB Name:', pool.database)
+console.log('DB Port:', pool.port)
 
 const getUsers = async () => {
   console.log("Salam model before query");
+  console.log('DB User:', pool.user)
+  console.log('DB Password:', pool.password)
+  console.log('DB Host:', pool.host)
+  console.log('DB Name:', pool.database)
+  console.log('DB Port:', pool.port)
   const result = await pool.query('SELECT * FROM users');
   console.log("Salam model after query");
   return result.rows;
