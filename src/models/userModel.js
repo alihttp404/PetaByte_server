@@ -1,21 +1,23 @@
 // require('dotenv').config({ path: '.env' });
 const { Pool } = require('pg');
 
-const pool = new Pool({
+const poolConfig = {
   user: 'postgres',
   host: '91.220.216.1',
   database: 'mydatabase',
   password: 'Sin90is1!',
   port: 5432,
-});
+};
+
+const pool = new Pool(poolConfig);
 
 const getUsers = async () => {
   console.log("Salam model before query");
-  console.log('DB User:', pool.user)
-  console.log('DB Password:', pool.password)
-  console.log('DB Host:', pool.host)
-  console.log('DB Name:', pool.database)
-  console.log('DB Port:', pool.port)
+  console.log('DB User:', poolConfig.user);
+  console.log('DB Password:', poolConfig.password);
+  console.log('DB Host:', poolConfig.host);
+  console.log('DB Name:', poolConfig.database);
+  console.log('DB Port:', poolConfig.port);
   const result = await pool.query('SELECT * FROM users');
   console.log("Salam model after query");
   return result.rows;
