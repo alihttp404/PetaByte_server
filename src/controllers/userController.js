@@ -9,6 +9,7 @@ const getUsers = async (req, res) => {
   } catch (err) {
     console.log("Salam in catch");
     res.status(500).send(err.message);
+    console.log(err.message);
   }
 };
 
