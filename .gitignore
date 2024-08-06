@@ -1,2 +1,3 @@
 node_modules/
 keys/petabyte-b96f9-d2aa521c6930.json
+*.env
