@@ -11,7 +11,7 @@ The main architecture of the project can be summarized as the following:
   
   Backend: Express (node js) 
   
-  Database: Postgresql
+  Database: PostgreSQL
   
   Authentication: Firebase
   
