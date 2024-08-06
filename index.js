@@ -4,6 +4,8 @@ const bowlRoutes = require('./src/routes/bowlRoutes');
 
 const app = express();
 const port = 3000;
+const render = 'https://petabyte-server.onrender.com/';
+const local = 'http://localhost:3000/';
 
 app.use(express.json());
 app.use('/api/users', userRoutes);
@@ -13,6 +15,6 @@ app.get('/', (request, response) => {
   response.json({ info: 'Node.js, Express, and Postgres API' })
 })
 
-app.listen(port, () => {
-  console.log('Server is running on https://petabyte-server.onrender.com/\nPort: ', port);
+app.listen(port, async () => {
+  console.log(`Server is running on ${local} \nPort: ${port}`);
 });
