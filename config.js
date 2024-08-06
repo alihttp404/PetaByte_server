@@ -1,8 +1,12 @@
 const dotenv = require('dotenv');
+
 const result = dotenv.config();
 if (result.error) {
-  throw result.error;
+  if (result.error.code !== 'ENOENT') {
+    throw result.error;
+  }
 }
-const { parsed: envs } = result;
+
+const envs = process.env;
 console.log(envs);
 module.exports = envs;
