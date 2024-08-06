@@ -1,7 +1,7 @@
 const express = require('express');
 const userRoutes = require('./src/routes/userRoutes');
 const bowlRoutes = require('./src/routes/bowlRoutes');
-const { PORT } = require('./config');
+const port = process.env.PORT || 3000;
 
 const app = express();
 const render = 'https://petabyte-server.onrender.com/';
@@ -15,6 +15,6 @@ app.get('/', (request, response) => {
   response.json({ info: 'Node.js, Express, and Postgres API' })
 })
 
-app.listen(PORT, async () => {
+app.listen(port, async () => {
   console.log(`Server is running on ${render} \nPort: ${port}`);
 });
