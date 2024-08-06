@@ -1,9 +1,9 @@
 const express = require('express');
 const userRoutes = require('./src/routes/userRoutes');
 const bowlRoutes = require('./src/routes/bowlRoutes');
+const port = 3000;
 
 const app = express();
-const port = 3000;
 const render = 'https://petabyte-server.onrender.com/';
 const local = 'http://localhost:3000/';
 
