@@ -5,20 +5,31 @@ This is a backend CRUD API made to handle database requests to PostgreSQL for Pe
 
 The main architecture of the project can be summarized as the following:
 
-Development:
+## Development:
+
   Frontend: Flutter
+  
   Backend: Express (node js) 
-  Database: Postgresql
+  
+  Database: PostgreSQL
+  
   Authentication: Firebase
+  
   Hosting service: Render
 
-Version Control:
-  dev - used for development
-  main - used for production(render)
+
+## Version Control:
+
+  Dev - used for development and testing
+  
+  Main - used for production(render)
+
 
 Testing:
-  Render - a pr testing server is used before deployment
+
+  Render - Once a PR is created, a stage area is automatically generated
+  
   Postman - CRUD API testing
 
-
+#
 Stay tuned for more documentation in the near future!
