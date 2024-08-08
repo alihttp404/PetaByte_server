@@ -27,8 +27,9 @@ const createBowl = async (req, res) => {
   const { location } = req.body;
   const { description } = req.body;
   const status = "empty";
+  // const count = 0;
   try {
-    const newBowl = await bowlModel.createBowl(location, status, description);
+    const newBowl = await bowlModel.createBowl(location, status, description); // TODO: add count
     res.status(201).json(newBowl);
   } catch (err) {
     res.status(500).send(err.message);

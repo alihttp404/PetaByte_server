@@ -13,6 +13,8 @@ const getBowlById = async (id) => {
 };
 
 const createBowl = async (location, status, description) => {
+  // TODO add a count parameter for filling the bowl to the db 
+  // TODO edit this method accordingly
   const result = await pool.query(
     'INSERT INTO bowls (location, status, description) VALUES ($1, $2, $3) RETURNING *'
     [location, status, description]
