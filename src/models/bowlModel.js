@@ -12,10 +12,10 @@ const getBowlById = async (id) => {
   return result.rows[0];
 };
 
-const createBowl = async (location, description) => {
+const createBowl = async (location, status, description) => {
   const result = await pool.query(
-    'INSERT INTO bowls (location, description) VALUES ($1, $2) RETURNING *'
-    [location, description]
+    'INSERT INTO bowls (location, status, description) VALUES ($1, $2, $3) RETURNING *'
+    [location, status, description]
   );
   return result.rows[0];
 };
