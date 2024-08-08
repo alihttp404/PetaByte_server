@@ -12,7 +12,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/bowls', bowlRoutes);
 
 app.get('/', (request, response) => {
-  response.json({ info: 'Node.js, Express, and Postgres API' })
+  response.json('This page does not exist');
 })
 
 app.listen(port, async () => {
