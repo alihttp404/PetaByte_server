@@ -6,8 +6,9 @@ const router = express.Router();
 
 router.use(authenticate);
 router.get('/', bowlController.getBowls);
-router.get('/:id', bowlController.getBowlById);
 router.post('/', bowlController.createBowl);
+router.get('/export', bowlController.exportBowls); // e.g GET /api/bowls/export?ids=1,2,3
+router.get('/:id', bowlController.getBowlById);
 router.put('/:id', bowlController.updateBowl);
 router.delete('/:id', bowlController.deleteBowl);
 
