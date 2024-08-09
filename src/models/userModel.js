@@ -15,11 +15,11 @@ const getUserById = async (id) => {
   return result.rows[0];
 };
 
-const createUser = async (fullName, email, password, scannedBowls) => {
+const createUser = async (fullName, email, password, age) => {
   console.log("Salam createUser model before query");
   const result = await pool.query(
-    'INSERT INTO users (full_name, email, password, scanned_bowls) VALUES ($1, $2, $3, $4) RETURNING *',
-    [fullName, email, password, scannedBowls]
+    'INSERT INTO users (full_name, email, password, age) VALUES ($1, $2, $3, $4) RETURNING *',
+    [fullName, email, password, age]
   );
   console.log("Salam createUser model after query");
   return result.rows[0];
