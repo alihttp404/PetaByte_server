@@ -16,26 +16,16 @@ const getUserById = async (id) => {
 };
 
 const createUser = async (fullName, email, password, scannedBowls) => {
-  const userRecord = await admin.auth().createUser({
-    email: email,
-    password: password,
-    displayName: fullName,
-  });
-
+  console.log("Salam createUser model before query");
   const result = await pool.query(
     'INSERT INTO users (full_name, email, password, scanned_bowls) VALUES ($1, $2, $3, $4) RETURNING *',
     [fullName, email, password, scannedBowls]
   );
+  console.log("Salam createUser model after query");
   return result.rows[0];
 };
 
 const updateUser = async (id, fullName, email, password, scannedBowls) => {
-  await admin.auth().updateUser(id, {
-    email: email,
-    password: password,
-    displayName: fullName,
-  });
-
   const result = await pool.query(
     'UPDATE users SET full_name = $1, email = $2, password = $3, scanned_bowls = $4 WHERE id = $5 RETURNING *',
     [fullName, email, password, scannedBowls, id]
