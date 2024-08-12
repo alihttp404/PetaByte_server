@@ -29,10 +29,13 @@ const getUserById = async (req, res) => {
 
 const createUser = async (req, res) => {
   const { fullName, email, password, scannedBowls } = req.body;
+  console.log("Salam createUser controller before model")
   try {
     const newUser = await userModel.createUser(id, fullName, email, password, scannedBowls, age);
     res.status(201).json(newUser);
+    console.log("Salam createUser controller after model")
   } catch (err) {
+    console.log("Salam createUser controller in catch")
     res.status(500).send(err.message);
   }
 };
