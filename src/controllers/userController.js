@@ -28,14 +28,27 @@ const getUserById = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
-  const { fullName, email, password, scannedBowls } = req.body;
+  const { fullName, email, password, age } = req.body;
   console.log("Salam createUser controller before model")
   try {
-    const newUser = await userModel.createUser(id, fullName, email, password, scannedBowls, age);
+    const newUser = await userModel.createUser(fullName, email, password, age);
     res.status(201).json(newUser);
     console.log("Salam createUser controller after model")
   } catch (err) {
     console.log("Salam createUser controller in catch")
+    res.status(500).send(err.message);
+  }
+};
+
+const createUsers = async (req, res) => {
+  const users = req.body;
+  console.log("Salam createUsers controller before model")
+  try {
+    const newUsers = await userModel.createUsers(users);
+    res.status(201).json(newUsers);
+    console.log("Salam createUsers controller after model")
+  } catch (err) {
+    console.log("Salam createUsers controller in catch")
     res.status(500).send(err.message);
   }
 };
@@ -73,6 +86,7 @@ module.exports = {
   getUsers,
   getUserById,
   createUser,
+  createUsers,
   updateUser,
   deleteUser,
 };

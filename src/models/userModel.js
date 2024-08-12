@@ -15,14 +15,39 @@ const getUserById = async (id) => {
   return result.rows[0];
 };
 
-const createUser = async (id, fullName, email, password, scannedBowls, age) => {
+const createUser = async (fullName, email, password, age) => {
   console.log("Salam createUser model before query");
   const result = await pool.query(
-    'INSERT INTO users (id, full_name, email, password, scanned_bowls, age) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-    [id, fullName, email, password, scannedBowls, age]
+    'INSERT INTO users (full_name, email, password, age) VALUES ($1, $2, $3, $4) RETURNING *',
+    [fullName, email, password, age]
   );
   console.log("Salam createUser model after query");
   return result.rows[0];
+};
+
+const createUsers = async (users) => {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    const results = [];
+
+    for (const user of users) {
+      const { fullName, email, password, age } = user;
+      const result = await client.query(
+        'INSERT INTO users (full_name, email, password, age) VALUES ($1, $2, $3, $4) RETURNING *',
+        [fullName, email, password, age]
+      );
+      results.push(result.rows[0]);
+    }
+
+    await client.query('COMMIT');
+    return results;
+  } catch (err) {
+    await client.query('ROLLBACK');
+    throw err;
+  } finally {
+    client.release();
+  }
 };
 
 const updateUser = async (id, fullName, email, password, scannedBowls) => {
@@ -35,7 +60,6 @@ const updateUser = async (id, fullName, email, password, scannedBowls) => {
 
 const deleteUser = async (id) => {
   await admin.auth().deleteUser(id);
-
   const result = await pool.query('DELETE FROM users WHERE id = $1 RETURNING *', [id]);
   return result.rows[0];
 };
@@ -44,6 +68,7 @@ module.exports = {
   getUsers,
   getUserById,
   createUser,
+  createUsers,
   updateUser,
   deleteUser,
 };
