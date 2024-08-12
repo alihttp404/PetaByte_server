@@ -1,4 +1,7 @@
 const bowlModel = require('../models/bowlModel');
+const PDFDocument = require('pdfkit');
+const axios = require('axios');
+
 
 const getBowls = async (req, res) => {
   try {
@@ -22,7 +25,7 @@ const getBowlById = async (req, res) => {
     res.status(500).send(err.message);
   }
 };
-
+ 
 const createBowl = async (req, res) => {
   const { location } = req.body;
   const { description } = req.body;
@@ -65,10 +68,57 @@ const deleteBowl = async (req, res) => {
   }
 };
 
+const exportBowls = async (req, res) => {
+  const ids = req.query.ids;
+  if (!ids) {
+    return res.status(400).send('IDs are required');
+  }
+
+  const bowlIds = ids.split(',');
+
+  try {
+    // Fetch data for each bowl from the database
+    const bowls = await Promise.all(bowlIds.map(id => bowlModel.getBowlById(id)));
+
+    if (!bowls.length) {
+      return res.status(404).send('No bowls found for the provided IDs');
+    }
+
+    const doc = new PDFDocument({autoFirstPage: false});
+    
+    res.setHeader('Content-disposition', 'attachment; filename=bowls.pdf');
+    res.setHeader('Content-type', 'application/pdf');
+    doc.pipe(res);
+
+    // Add bowl information and QR code to the PDF
+    for (const bowl of bowls) {
+      if (bowl) {
+        doc.addPage();
+        const qrUrl = `http://api.qrserver.com/v1/create-qr-code/?data=${bowl.id}`;
+        const qrImage = await axios.get(qrUrl, { responseType: 'arraybuffer' });
+        const qrBuffer = Buffer.from(qrImage.data, 'binary');
+
+        doc.fontSize(25).text(bowl.id, { underline: true });
+        doc.fontSize(12).text(bowl.description);
+        doc.image(qrBuffer, {
+          fit: [100, 100],
+          align: 'center',
+          valign: 'center'
+        });
+      }
+    }
+    doc.end();
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error generating PDF');
+  }
+};
+
 module.exports = {
   getBowls,
   getBowlById,
   createBowl,
   updateBowl,
   deleteBowl,
+  exportBowls,
 };
