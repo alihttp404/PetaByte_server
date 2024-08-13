@@ -41,18 +41,23 @@ const createBowl = async (req, res) => {
 
 const updateBowl = async (req, res) => {
   const { id } = req.params;
-  const { location } = req.body;
+  const { location, status, description, lastupdated } = req.body;
+
+  if (!location || !status || !description || !lastupdated) {
+    return res.status(400).send("All fields (location, status, description, lastupdated) are required.");
+  }
+
   try {
-    const updatedBowl = await bowlModel.updateBowl(id, location);
+    const updatedBowl = await bowlModel.updateBowl(id, location, status, description, lastupdated);
     if (!updatedBowl) {
-      res.status(404).send('Bowl not found');
-    } else {
-      res.json(updatedBowl);
+      return res.status(404).send("Bowl not found");
     }
+    res.status(200).json(updatedBowl);
   } catch (err) {
     res.status(500).send(err.message);
   }
 };
+
 
 const deleteBowl = async (req, res) => {
   const { id } = req.params;

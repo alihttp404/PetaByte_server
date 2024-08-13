@@ -25,13 +25,13 @@ const updateBowl = async (id, { x, y }, status, description, lastupdated) => {
   const point = `(${x}, ${y})`;
   const result = await pool.query(
     `UPDATE bowls 
-     SET location = $1, 
-         status = $2, 
-         description = $3, 
-         lastupdated = $4 
-     WHERE id = $5 
+     SET location = $2, 
+         status = $3, 
+         description = $4, 
+         lastupdated = $5 
+     WHERE id = $1 
      RETURNING *`,
-    [point, status, description, lastupdated, id]
+    [id, point, status, description, lastupdated]
   );
 
   return result.rows[0];
