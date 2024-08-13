@@ -21,10 +21,11 @@ const createBowl = async ({ x, y }, status, description, lastupdated) => {
   return result.rows[0];
 };
 
-const updateBowl = async (id, location) => {
+const updateBowl = async ({ x, y }, status, description, lastupdated) => {
+  const point = `(${x}, ${y})`;
   const result = await pool.query(
-    'UPDATE bowls SET location = $1 WHERE id = $2 RETURNING *',
-    [location, id]
+    'UPDATE INTO bowls (location, status, description, lastupdated) VALUES ($1, $2, $3, $4) RETURNING *',
+    [point, status, description, lastupdated]
   );
   return result.rows[0];
 };
