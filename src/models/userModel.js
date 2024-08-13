@@ -15,14 +15,19 @@ const getUserById = async (id) => {
   return result.rows[0];
 };
 
-const createUser = async (fullName, email, password, age) => {
-  console.log("Salam createUser model before query");
-  const result = await pool.query(
-    'INSERT INTO users (full_name, email, password, age) VALUES ($1, $2, $3, $4) RETURNING *',
-    [fullName, email, password, age]
-  );
-  console.log("Salam createUser model after query");
-  return result.rows[0];
+const createUser = async (full_name, email, password, age) => {
+  console.log("Model function data:", { full_name, email, password, age });
+  try {
+    const result = await pool.query(
+      'INSERT INTO users (full_name, email, password, age) VALUES ($1, $2, $3, $4) RETURNING *',
+      [full_name, email, password, age]
+    );
+    console.log("Query result:", result.rows[0]);
+    return result.rows[0];
+  } catch (err) {
+    console.error("SQL query error:", err);
+    throw err;
+  }
 };
 
 const createUsers = async (users) => {
