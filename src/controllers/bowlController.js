@@ -27,14 +27,17 @@ const getBowlById = async (req, res) => {
 };
  
 const createBowl = async (req, res) => {
-  const { location } = req.body;
+  const { location, status, description, lastupdated } = req.body;
+  const { x, y } = location;
+
   try {
-    const newBowl = await bowlModel.createBowl(location);
+    const newBowl = await bowlModel.createBowl({ x, y }, status, description, lastupdated);
     res.status(201).json(newBowl);
   } catch (err) {
     res.status(500).send(err.message);
   }
 };
+
 
 const updateBowl = async (req, res) => {
   const { id } = req.params;
