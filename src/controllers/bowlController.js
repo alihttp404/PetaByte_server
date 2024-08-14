@@ -2,7 +2,6 @@ const bowlModel = require('../models/bowlModel');
 const PDFDocument = require('pdfkit');
 const axios = require('axios');
 
-
 const getBowls = async (req, res) => {
   try {
     const bowls = await bowlModel.getBowls();
@@ -38,7 +37,6 @@ const createBowl = async (req, res) => {
   }
 };
 
-
 const updateBowl = async (req, res) => {
   const { id } = req.params;
   const { location, status, description, lastupdated } = req.body;
@@ -57,7 +55,6 @@ const updateBowl = async (req, res) => {
     res.status(500).send(err.message);
   }
 };
-
 
 const deleteBowl = async (req, res) => {
   const { id } = req.params;
