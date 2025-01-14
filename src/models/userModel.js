@@ -3,6 +3,13 @@ const { Pool } = require('pg');
 const admin = require('../../middleware/firebase');
 const pool = require('../../dbConfig');
 
+const getLeaderboard = async () => {
+  const result = await pool.query(
+    'SELECT full_name, scanned_bowls FROM users ORDER BY scanned_bowls DESC'
+  );
+  return result.rows;
+};
+
 const getUsers = async () => {
   console.log("Salam model before query");
   const result = await pool.query('SELECT * FROM users');
@@ -13,6 +20,11 @@ const getUsers = async () => {
 const getUserById = async (id) => {
   const result = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
   return result.rows[0];
+};
+
+const getUserByEmail = async (email) => {
+  const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+  return result.rows[0]; // Return the first user (if any)
 };
 
 const createUser = async (full_name, email, password, age) => {
@@ -56,12 +68,22 @@ const createUsers = async (users) => {
 };
 
 const updateUser = async (id, fullName, email, password, scannedBowls) => {
-  const result = await pool.query(
-    'UPDATE users SET full_name = $1, email = $2, password = $3, scanned_bowls = $4 WHERE id = $5 RETURNING *',
-    [fullName, email, password, scannedBowls, id]
-  );
-  return result.rows[0];
+  console.log('Update query params:', { id, fullName, email, password, scannedBowls });
+
+  try {
+    const result = await pool.query(
+      'UPDATE users SET full_name = $1, email = $2, password = $3, scanned_bowls = $4 WHERE id = $5 RETURNING *',
+      [fullName, email, password, scannedBowls, id]
+    );
+    console.log('Query result:', result.rows);
+    return result.rows[0];
+  } catch (err) {
+    console.error('Database error in updateUser:', err);
+    throw err;
+  }
 };
+
+
 
 const deleteUser = async (id) => {
   await admin.auth().deleteUser(id);
@@ -72,8 +94,10 @@ const deleteUser = async (id) => {
 module.exports = {
   getUsers,
   getUserById,
+  getUserByEmail,
   createUser,
   createUsers,
   updateUser,
   deleteUser,
+  getLeaderboard,
 };

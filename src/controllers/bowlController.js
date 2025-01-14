@@ -7,7 +7,8 @@ const getBowls = async (req, res) => {
     const bowls = await bowlModel.getBowls();
     res.json(bowls);
   } catch (err) {
-    res.status(500).send(err.message);
+    console.error('Error fetching bowls:', err);
+    res.status(500).send('Internal Server Error');
   }
 };
 

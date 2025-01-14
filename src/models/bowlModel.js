@@ -3,9 +3,15 @@ const { Pool } = require('pg');
 const pool = require('../../dbConfig');
 
 const getBowls = async () => {
-  const result = await pool.query('SELECT * FROM bowls');
-  return result.rows;
+  try {
+    const result = await pool.query('SELECT * FROM bowls');
+    return result.rows;
+  } catch (err) {
+    console.error('Database query error:', err);
+    throw err;
+  }
 };
+
 
 const getBowlById = async (id) => {
   const result = await pool.query('SELECT * FROM bowls WHERE id = $1', [id]);
