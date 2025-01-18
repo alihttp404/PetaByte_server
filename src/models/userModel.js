@@ -11,25 +11,25 @@ const getLeaderboard = async () => {
 };
 
 const getUsers = async () => {
-  const result = await pool.query('SELECT id, full_name, email, age, scanned_bowls FROM users');
+  const result = await pool.query('SELECT id, full_name, uid, age, scanned_bowls FROM users');
   return result.rows;
 };
 
 const getUserById = async (id) => {
-  const result = await pool.query('SELECT id, full_name, email, age, scanned_bowls FROM users WHERE id = $1', [id]);
+  const result = await pool.query('SELECT id, full_name, uid, age, scanned_bowls FROM users WHERE id = $1', [id]);
   return result.rows[0];
 };
 
-const getUserByEmail = async (email) => {
-  const result = await pool.query('SELECT id, full_name, email, age, scanned_bowls FROM users WHERE email = $1', [email]);
+const getUserByUid = async (uid) => {
+  const result = await pool.query('SELECT id, full_name, uid, age, scanned_bowls FROM users WHERE uid = $1', [uid]);
   return result.rows[0];
 };
 
-const createUser = async (full_name, email, age) => {
+const createUser = async (full_name, uid, age) => {
   try {
     const result = await pool.query(
-      'INSERT INTO users (full_name, email, age) VALUES ($1, $2, $3) RETURNING id, full_name, email, age, scanned_bowls',
-      [full_name, email, age]
+      'INSERT INTO users (full_name, uid, age) VALUES ($1, $2, $3) RETURNING id, full_name, uid, age, scanned_bowls',
+      [full_name, uid, age]
     );
     return result.rows[0];
   } catch (err) {
@@ -43,10 +43,10 @@ const createUsers = async (users) => {
     await client.query('BEGIN');
     const results = [];
     for (const user of users) {
-      const { fullName, email, age } = user;
+      const { fullName, uid, age } = user;
       const result = await client.query(
-        'INSERT INTO users (full_name, email, age) VALUES ($1, $2, $3) RETURNING id, full_name, email, age, scanned_bowls',
-        [fullName, email, age]
+        'INSERT INTO users (full_name, uid, age) VALUES ($1, $2, $3) RETURNING id, full_name, uid, age, scanned_bowls',
+        [fullName, uid, age]
       );
       results.push(result.rows[0]);
     }
@@ -60,24 +60,24 @@ const createUsers = async (users) => {
   }
 };
 
-const updateUser = async (id, fullName, email, scannedBowls) => {
+const updateUser = async (id, fullName, uid, scannedBowls) => {
   const result = await pool.query(
-    'UPDATE users SET full_name = $1, email = $2, scanned_bowls = $3 WHERE id = $4 RETURNING id, full_name, email, age, scanned_bowls',
-    [fullName, email, scannedBowls, id]
+    'UPDATE users SET full_name = $1, uid = $2, scanned_bowls = $3 WHERE id = $4 RETURNING id, full_name, uid, age, scanned_bowls',
+    [fullName, uid, scannedBowls, id]
   );
   return result.rows[0];
 };
 
 const deleteUser = async (id) => {
   await admin.auth().deleteUser(id);
-  const result = await pool.query('DELETE FROM users WHERE id = $1 RETURNING id, full_name, email, age, scanned_bowls', [id]);
+  const result = await pool.query('DELETE FROM users WHERE id = $1 RETURNING id, full_name, uid, age, scanned_bowls', [id]);
   return result.rows[0];
 };
 
 module.exports = {
   getUsers,
   getUserById,
-  getUserByEmail,
+  getUserByUid,
   createUser,
   createUsers,
   updateUser,

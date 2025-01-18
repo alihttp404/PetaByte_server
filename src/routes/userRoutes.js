@@ -7,7 +7,7 @@ const router = express.Router();
 router.use(authenticate);
 
 router.get('/getLeaderboard', userController.getLeaderboard);
-router.get('/getUserByEmail', userController.getUserByEmail);
+router.get('/getUserByUid', userController.getUserByUid);
 
 router.get('/:id', (req, res, next) => {
     if (!/^\d+$/.test(req.params.id)) {
