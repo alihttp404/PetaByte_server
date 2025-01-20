@@ -28,8 +28,8 @@ const getUserByUid = async (uid) => {
 const createUser = async (full_name, uid, age) => {
   try {
     const result = await pool.query(
-      'INSERT INTO users (full_name, uid, age) VALUES ($1, $2, $3) RETURNING id, full_name, uid, age, scanned_bowls',
-      [full_name, uid, age]
+      'INSERT INTO users (full_name, uid, age, scanned_bowls) VALUES ($1, $2, $3, $4) RETURNING id, full_name, uid, age, scanned_bowls',
+      [full_name, uid, age, 0]
     );
     return result.rows[0];
   } catch (err) {
