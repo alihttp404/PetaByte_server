@@ -7,7 +7,7 @@ const port = 3000;
 const app = express();
 
 const allowedOrigins = [
-  'http://localhost:56309', // Your local dev origin (port might change!)
+  'http://localhost:57809', // Your local dev origin (port might change!)
   'https://petabyte-b96f9.web.app', // Your deployed Flutter app origin
   // Add your custom domain here too if you set one up
   // 'https://your-custom-domain.com'
