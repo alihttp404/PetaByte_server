@@ -1,6 +1,6 @@
 # PetaByte Server
 
-This is a backend CRUD APII made to handle database requests to PostgreSQL for PetaByte mobile app, written in node js and express. The server is hosted on Render, as well as the database.
+This is a backend CRUD API made to handle database requests to PostgreSQL for PetaByte mobile app, written in node js and express. The server is hosted on Render, as well as the database.
 
 
 The main architecture of the project can be summarized as the following:
