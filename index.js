@@ -9,6 +9,7 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:54977', // Your local dev origin (port might change!)
   'https://pet-city.org', // Your deployed Flutter app origin
+  'http://213.136.84.204:3000',
   // Add your custom domain here too if you set one up
   // 'https://your-custom-domain.com'
 ];
@@ -28,9 +29,6 @@ const corsOptions = {
   credentials: true // If you need to send cookies or authorization headers
 };
 
-const render = 'https://petabyte-server.onrender.com/';
-const local = 'http://localhost:3000/';
-
 app.use(express.json());
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
@@ -41,6 +39,6 @@ app.get('/', (request, response) => {
   response.json({ info: 'Node.js, Express, and Postgres API' })
 })
 
-app.listen(port, async () => {
-  console.log(`Server is running on ${render} \nPort: ${port}`);
+app.listen(port, '0.0.0.0', async () => {
+  console.log(`Server is running on port: ${port}`);
 });
