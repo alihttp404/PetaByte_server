@@ -4,12 +4,14 @@ const authenticate = require('../../middleware/auth');
 
 const router = express.Router();
 
-router.use(authenticate);
+// Public routes (no authentication required)
 router.get('/', bowlController.getBowls);
-router.post('/', bowlController.createBowl);
-router.get('/export', bowlController.exportBowls); // e.g GET /api/bowls/export?ids=1,2,3
+router.get('/export', bowlController.exportBowls);
 router.get('/:id', bowlController.getBowlById);
-router.put('/:id', bowlController.updateBowl);
-router.delete('/:id', bowlController.deleteBowl);
+
+// Protected routes (authentication required)
+router.post('/', authenticate, bowlController.createBowl);
+router.put('/:id', authenticate, bowlController.updateBowl);
+router.delete('/:id', authenticate, bowlController.deleteBowl);
 
 module.exports = router;
