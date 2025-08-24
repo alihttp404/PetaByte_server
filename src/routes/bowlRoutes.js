@@ -8,10 +8,10 @@ const router = express.Router();
 router.get('/', bowlController.getBowls);
 router.get('/export', bowlController.exportBowls);
 router.get('/:id', bowlController.getBowlById);
+router.put('/:id', bowlController.updateBowl);
 
 // Protected routes (authentication required)
 router.post('/', authenticate, bowlController.createBowl);
-router.put('/:id', authenticate, bowlController.updateBowl);
 router.delete('/:id', authenticate, bowlController.deleteBowl);
 
 module.exports = router;
